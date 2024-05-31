@@ -1,11 +1,5 @@
 import "./PostVotesWidget.css";
-import {
-  TiArrowUpOutline,
-  TiArrowUpThick,
-  TiArrowDownOutline,
-  TiArrowDownThick,
-  TiMessage,
-} from "react-icons/ti";
+import { TiArrowUpOutline, TiArrowDownOutline } from "react-icons/ti";
 
 export default function PostVotesWidget({ post }) {
   return (
