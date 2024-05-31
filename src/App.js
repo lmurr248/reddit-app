@@ -9,10 +9,10 @@ function App() {
     <div className="App">
       <Header />
       <div className="App-body">
-        <div className="card feed">
+        <div className="feed">
           <Feed />
         </div>
-        <div className="card sidebar">
+        <div className="sidebar">
           <Sidebar />
         </div>
       </div>

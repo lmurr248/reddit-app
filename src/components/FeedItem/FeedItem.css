@@ -1,0 +1,23 @@
+.feed-card {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  gap: 1rem;
+}
+
+.feed-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+h3 {
+  margin-block-start: 0.25rem;
+  margin-block-end: 0.25rem;
+}
+
+img {
+  width: 100%;
+  background-size: contain;
+  border-radius: 10px;
+}
