@@ -1,14 +1,22 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm, selectSearchTerm } from "../../store/searchSlice";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../../store/searchSlice";
+import { fetchPosts } from "../../store/redditSlice";
 import "./SearchBar.css";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
-  const searchTerm = useSelector(selectSearchTerm);
+  const [searchTerm, setSearchTermLocal] = useState(""); // Local state for input value
 
   const handleInputChange = (e) => {
-    dispatch(setSearchTerm(e.target.value));
+    // Update the local state without dispatching the action
+    setSearchTermLocal(e.target.value);
+  };
+
+  const handleButtonClick = () => {
+    // Dispatch setSearchTerm with the local state value
+    dispatch(setSearchTerm(searchTerm));
+    dispatch(fetchPosts(searchTerm));
   };
 
   return (
@@ -19,6 +27,7 @@ export default function SearchBar() {
         value={searchTerm}
         onChange={handleInputChange}
       />
+      <button onClick={handleButtonClick}>Search</button>
     </div>
   );
 }

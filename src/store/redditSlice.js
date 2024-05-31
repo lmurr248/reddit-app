@@ -47,7 +47,7 @@ const redditSlice = createSlice({
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.posts = action.payload;
+        state.comments = action.payload;
       })
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = "failed";

@@ -1,7 +1,6 @@
 import React from "react";
 import PostVotesWidget from "../PostVotesWidget/PostVotesWidget";
 import "./FeedItem.css";
-import he from "he";
 
 export default function FeedItem({ post }) {
   // Regular expression to check if the URL ends with an image file extension
@@ -21,11 +20,11 @@ export default function FeedItem({ post }) {
       <div className="card feed-card mg-bottom feed-item">
         <PostVotesWidget post={post} />
         <div key={post.id} className="feed-details">
-          <h3 className="left">{he.decode(post.title)}</h3>
+          <h3 className="left">{post.title}</h3>
           {isImageUrl(post.url) ? (
             <img src={post.url} alt={post.title} />
           ) : null}
-          <p className="left">{he.decode(truncatedText(post.selftext, 200))}</p>
+          <p className="left">{truncatedText(post.selftext, 200)}</p>
         </div>
       </div>
     </div>

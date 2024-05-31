@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FeedItem from "../FeedItem/FeedItem";
-import { fetchPosts, selectPosts } from "../../store/redditSlice";
+import { fetchPosts, selectPosts, selectStatus } from "../../store/redditSlice";
 import { selectSearchTerm } from "../../store/searchSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import he from "he";
 
 export default function Feed() {
   const searchTerm = useSelector(selectSearchTerm) || "photoshopbattles";
   const posts = useSelector(selectPosts);
   const dispatch = useDispatch();
+  const status = useSelector(selectStatus);
 
   const loadingPosts = () => {
-    if (!posts.length) {
-      // Check if posts is empty
+    // If status is loading, display skeleton
+    if (status === "loading") {
       return (
         <Skeleton
           count={5}
@@ -28,15 +28,8 @@ export default function Feed() {
   };
 
   useEffect(() => {
-    async function fetchAndDecodePosts() {
-      try {
-        await dispatch(fetchPosts(searchTerm)); // Ensure fetchPosts returns a promise
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    }
-
-    fetchAndDecodePosts();
+    // Dispatch fetchPosts action
+    dispatch(fetchPosts(searchTerm));
   }, [dispatch, searchTerm]);
 
   return (
@@ -45,17 +38,12 @@ export default function Feed() {
         Showing results for{" "}
         <span className="red weight-600">"{searchTerm || <Skeleton />}"</span>
       </p>
-      {posts.map((post) => (
-        <FeedItem
-          key={post.id}
-          post={{
-            ...post,
-            title: he.decode(post.title),
-            selftext: he.decode(post.selftext),
-          }}
-        />
-      ))}
+      {/* Render loadingPosts function */}
       {loadingPosts()}
+      {/* Render posts */}
+      {posts.map((post) => (
+        <FeedItem key={post.id} post={post} />
+      ))}
     </div>
   );
 }
