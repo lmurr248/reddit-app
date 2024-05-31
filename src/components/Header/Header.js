@@ -1,13 +1,15 @@
 import "./Header.css";
 import SearchBar from "../SearchBar/SearchBar";
+import RedditFeedLogo from "./RedditFeedLogo.svg";
 
 export default function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        <h1>Reddit App</h1>
+        <img src={RedditFeedLogo} alt="Reddit feed logo" className="logo" />
         <SearchBar />
       </div>
+      <div></div>
     </header>
   );
 }

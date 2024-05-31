@@ -47,6 +47,7 @@
   max-width: 1500px;
   margin: 0 auto;
   padding: 2rem;
+  padding-top: 80px;
 }
 
 .card {
@@ -58,4 +59,16 @@
 
 .mg-bottom {
   margin-bottom: 2rem;
+}
+
+.left {
+  text-align: left;
+}
+
+.red {
+  color: #ef4362;
+}
+
+.weight-600 {
+  font-weight: 600;
 }

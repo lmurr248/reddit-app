@@ -1,20 +1,33 @@
+import React from "react";
 import PostVotesWidget from "../PostVotesWidget/PostVotesWidget";
 import "./FeedItem.css";
+import he from "he";
 
-export default function FeedItem({ feedItems }) {
+export default function FeedItem({ post }) {
+  // Regular expression to check if the URL ends with an image file extension
+  const isImageUrl = (url) => {
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url);
+  };
+
+  const truncatedText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  };
+
   return (
     <div className="feed-container">
-      {feedItems.map((item) => {
-        return (
-          <div className="card feed-card mg-bottom feed-item">
-            <PostVotesWidget />
-            <div key={item.id} className="feed-details">
-              <h3>{item.title}</h3>
-              <img src={item.thumbnail} alt={item.title} />
-            </div>
-          </div>
-        );
-      })}
+      <div className="card feed-card mg-bottom feed-item">
+        <PostVotesWidget post={post} />
+        <div key={post.id} className="feed-details">
+          <h3 className="left">{he.decode(post.title)}</h3>
+          {isImageUrl(post.url) ? (
+            <img src={post.url} alt={post.title} />
+          ) : null}
+          <p className="left">{he.decode(truncatedText(post.selftext, 200))}</p>
+        </div>
+      </div>
     </div>
   );
 }

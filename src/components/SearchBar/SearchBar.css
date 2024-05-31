@@ -1,7 +1,13 @@
 input {
-  background-color: #f3f3f3;
-  border: solid 1px #dcdcdc;
+  background-color: #f7f7f7;
+  border: solid 1.5px #d0d0d0;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  width: 200px;
+  width: 340px;
+  height: 18px;
+}
+
+input[type="text"]:focus {
+  border: 2px solid #ef4362;
+  outline: none;
 }

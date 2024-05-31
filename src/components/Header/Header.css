@@ -1,19 +1,32 @@
 header {
+  min-height: 40px;
+  position: fixed;
+  width: -webkit-fill-available;
+  width: fill-available;
   background-color: white;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.06);
-  padding: 5px 2rem;
+  padding: 12px 2rem;
   border-bottom: solid 1px #eaeaea;
+  z-index: 100;
+  display: flex;
+  align-items: center;
 }
 
 .header-container {
   max-width: 1500px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: space-between;
   margin: 0 auto;
+  gap: 6rem;
 }
 
 h1 {
   margin-block-start: 0.2rem;
   margin-block-end: 0.2rem;
+}
+
+img.logo {
+  max-width: 150px;
 }

@@ -1,6 +1,7 @@
 .post-votes-widget {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0px;
   align-items: center;
+  justify-content: flex-start;
 }
