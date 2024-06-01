@@ -27,7 +27,7 @@ export default function SearchBar() {
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <button onClick={handleButtonClick}>Search</button>
+      <button className="search-btn" onClick={handleButtonClick}>Search</button>
     </div>
   );
 }

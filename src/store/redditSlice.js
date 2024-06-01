@@ -1,12 +1,17 @@
 // src/store/redditSlice.js
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchRedditPosts, getPostComments } from "../api/reddit";
+import {
+  fetchRedditPosts,
+  getPostComments,
+  getSubreddits,
+} from "../api/reddit";
 
 const initialState = {
   posts: [],
   status: "idle",
   error: null,
+  subreddits: [],
 };
 
 export const fetchPosts = createAsyncThunk(
@@ -21,6 +26,14 @@ export const fetchComments = createAsyncThunk(
   "reddit/fetchComments",
   async (permalink) => {
     const response = await getPostComments(permalink);
+    return response;
+  }
+);
+
+export const fetchSubreddits = createAsyncThunk(
+  "reddit/fetchSubreddits",
+  async () => {
+    const response = await getSubreddits();
     return response;
   }
 );
@@ -52,6 +65,17 @@ const redditSlice = createSlice({
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(fetchSubreddits.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSubreddits.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.subreddits = action.payload;
+      })
+      .addCase(fetchSubreddits.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
@@ -66,3 +90,4 @@ export const selectStatus = (state) => state.reddit.status;
 export const selectError = (state) => state.reddit.error;
 export const selectPostComments = (state) => state.reddit.comments;
 export const selectCommentsStatus = (state) => state.reddit.commentsStatus;
+export const selectSubreddits = (state) => state.reddit.subreddits;

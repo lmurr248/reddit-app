@@ -5,6 +5,7 @@ import { fetchPosts, selectPosts, selectStatus } from "../../store/redditSlice";
 import { selectSearchTerm } from "../../store/searchSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Sidebar from "../Sidebar/Sidebar";
 
 export default function Feed() {
   const searchTerm = useSelector(selectSearchTerm) || "photoshopbattles";
@@ -33,17 +34,25 @@ export default function Feed() {
   }, [dispatch, searchTerm]);
 
   return (
-    <div>
-      <p className="left mg-bottom">
+    <div className="Feed-container">
+      <p className="left search-text">
         Showing results for{" "}
         <span className="red weight-600">"{searchTerm || <Skeleton />}"</span>
       </p>
-      {/* Render loadingPosts function */}
-      {loadingPosts()}
-      {/* Render posts */}
-      {posts.map((post) => (
-        <FeedItem key={post.id} post={post} />
-      ))}
+      <div className="Feed-body">
+        <div>
+          {/* Render loadingPosts function */}
+          {loadingPosts()}
+          {/* Render posts */}
+          {posts.map((post) => (
+            <FeedItem key={post.id} post={post} />
+          ))}
+        </div>
+
+        <div className="sidebar">
+          <Sidebar />
+        </div>
+      </div>
     </div>
   );
 }

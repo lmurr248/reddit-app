@@ -1,8 +1,8 @@
 input {
   background-color: #f7f7f7;
-  border: solid 1.5px #d0d0d0;
+  border: solid 1.5px #ef4362;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 4px 0px 0px 4px;
   width: 340px;
   height: 18px;
 }
@@ -10,4 +10,20 @@ input {
 input[type="text"]:focus {
   border: 2px solid #ef4362;
   outline: none;
+}
+
+button.search-btn {
+  border: solid 1px #ef4362;
+  border-radius: 0px 4px 4px 0px;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  background-color: #ef4362;
+  color: white;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+button.search-btn:hover {
+  background-color: #cd2c49;
+  border-color: #cd2c49;
 }

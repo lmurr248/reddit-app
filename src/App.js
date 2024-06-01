@@ -1,19 +1,22 @@
 import "./App.css";
 import Header from "./components/Header/Header";
 import Feed from "./components/Feed/Feed";
-import Sidebar from "./components/Sidebar/Sidebar";
+import { useEffect } from "react";
+import { fetchSubreddits } from "./store/redditSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSubreddits());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <Header />
-      <div className="App-body">
-        <div className="feed">
-          <Feed />
-        </div>
-        <div className="sidebar">
-          <Sidebar />
-        </div>
+      <div>
+        <Feed />
       </div>
     </div>
   );

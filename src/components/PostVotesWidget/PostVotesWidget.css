@@ -5,3 +5,14 @@
   align-items: center;
   justify-content: flex-start;
 }
+
+.post-votes-widget p {
+  margin-block-start: 5px;
+  margin-block-end: 5px;
+}
+
+.post-votes-widget svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  color: #777;
+}
