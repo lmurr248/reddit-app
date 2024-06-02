@@ -19,6 +19,7 @@ export default function Feed() {
   const status = useSelector(selectStatus);
   const currentPage = useSelector(selectCurrentPage);
 
+
   const [openCommentSection, setOpenCommentSection] = useState(null);
 
   const loadingPosts = () => {
@@ -34,6 +35,8 @@ export default function Feed() {
       );
     }
   };
+
+  
 
   useEffect(() => {
     dispatch(fetchPosts({ subreddit: searchTerm, page: 1, postsPerPage: 10 }));

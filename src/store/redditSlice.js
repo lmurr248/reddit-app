@@ -10,8 +10,10 @@ const initialState = {
   status: "idle",
   error: null,
   subreddits: [],
+  subredditsStatus: "idle",
   comments: [],
   commentsStatus: "idle",
+  commentsLoadingByPost: {}, // Track loading state for individual posts
   currentPage: 1,
   postsPerPage: 10,
 };
@@ -30,7 +32,7 @@ export const fetchComments = createAsyncThunk(
   "reddit/fetchComments",
   async ({ subreddit, id }) => {
     const response = await getPostComments({ subreddit, id });
-    return response;
+    return { postId: id, comments: response };
   }
 );
 
@@ -60,26 +62,31 @@ const redditSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchComments.pending, (state) => {
-        state.commentsStatus = "loading";
+      .addCase(fetchComments.pending, (state, action) => {
+        const { id } = action.meta.arg;
+        state.commentsLoadingByPost[id] = true;
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
+        const { postId, comments } = action.payload;
         state.commentsStatus = "succeeded";
-        state.comments = action.payload;
+        state.comments = comments;
+        state.commentsLoadingByPost[postId] = false;
       })
       .addCase(fetchComments.rejected, (state, action) => {
+        const { id } = action.meta.arg;
         state.commentsStatus = "failed";
+        state.commentsLoadingByPost[id] = false;
         state.error = action.error.message;
       })
       .addCase(fetchSubreddits.pending, (state) => {
-        state.status = "loading";
+        state.subredditsStatus = "loading";
       })
       .addCase(fetchSubreddits.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.subredditsStatus = "succeeded";
         state.subreddits = action.payload;
       })
       .addCase(fetchSubreddits.rejected, (state, action) => {
-        state.status = "failed";
+        state.subredditsStatus = "failed";
         state.error = action.error.message;
       });
   },
@@ -98,3 +105,6 @@ export const selectCommentsStatus = (state) => state.reddit.commentsStatus;
 export const selectSubreddits = (state) => state.reddit.subreddits;
 export const selectCurrentPage = (state) => state.reddit.currentPage;
 export const selectPostsPerPage = (state) => state.reddit.postsPerPage;
+export const selectSubredditsStatus = (state) => state.reddit.subredditsStatus;
+export const selectCommentsLoadingByPost = (state) =>
+  state.reddit.commentsLoadingByPost;

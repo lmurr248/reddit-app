@@ -4,7 +4,11 @@ import "./FeedItem.css";
 import { formatDistanceToNow } from "date-fns";
 import messageSquare from "./message-square.svg";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchComments, selectPostComments } from "../../store/redditSlice";
+import {
+  fetchComments,
+  selectPostComments,
+  selectCommentsLoadingByPost,
+} from "../../store/redditSlice";
 import Skeleton from "react-loading-skeleton";
 
 export default function FeedItem({
@@ -14,7 +18,7 @@ export default function FeedItem({
 }) {
   const dispatch = useDispatch();
   const postComments = useSelector(selectPostComments);
-  const [loadingComments, setLoadingComments] = useState(false); // New state for loading comments
+  const commentsLoadingByPost = useSelector(selectCommentsLoadingByPost);
 
   const isImageUrl = (url) => {
     return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url);
@@ -39,10 +43,7 @@ export default function FeedItem({
       setOpenCommentSection(null);
     } else {
       setOpenCommentSection(post.id);
-      setLoadingComments(true); // Set loading state to true when fetching comments
-      dispatch(fetchComments({ subreddit: post.subreddit, id: post.id }))
-        .then(() => setLoadingComments(false)) // Set loading state to false when comments are fetched
-        .catch(() => setLoadingComments(false)); // Set loading state to false if there's an error fetching comments
+      dispatch(fetchComments({ subreddit: post.subreddit, id: post.id }));
     }
   };
 
@@ -90,8 +91,7 @@ export default function FeedItem({
           </div>
           {openCommentSection === post.id && (
             <div className="comments-section">
-              {loadingComments ? (
-                // Render skeleton loading while comments are being fetched
+              {commentsLoadingByPost[post.id] ? (
                 <Skeleton count={5} height={50} />
               ) : postComments.length > 0 ? (
                 postComments.map((comment) => (
