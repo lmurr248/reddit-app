@@ -44,7 +44,23 @@ img.icon {
   width: 18px;
   height: 18px;
   color: #777;
+}
+
+.comment-icon-container {
+  display: flex;
+  align-items: flex-start;
   margin-right: 1rem;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.comment-icon-container p {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.comment-icon-container:hover p {
+  color: #ef4362;
 }
 
 .comment-body {

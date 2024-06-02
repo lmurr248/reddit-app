@@ -63,13 +63,16 @@ export default function FeedItem({
               {timeAgo(post.created)} by{" "}
               <span className="red weight-600">{post.author}</span>
             </p>
-            <div className="comments-icon" onClick={handleCommentIconClick}>
-              <p>{post.num_comments}</p>
+            <div
+              className="comment-icon-container"
+              onClick={handleCommentIconClick}
+            >
               <img
                 className="comment-icon"
                 src={messageSquare}
                 alt="comment icon"
               />
+              <p>{post.num_comments}</p>
             </div>
           </div>
           {openCommentSection === post.id && (
