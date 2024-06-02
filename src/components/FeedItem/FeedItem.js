@@ -1,5 +1,3 @@
-// FeedItem.js
-
 import React, { useState } from "react";
 import PostVotesWidget from "../PostVotesWidget/PostVotesWidget";
 import "./FeedItem.css";
@@ -48,6 +46,21 @@ export default function FeedItem({
     }
   };
 
+  const renderCommentBody = (body) => {
+    if (!body) return null;
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    const formattedBody = body.replace(urlRegex, (url) => {
+      if (/\.(jpg|jpeg|png|gif)$/i.test(url)) {
+        return `<img src="${url}" alt="comment image" class="comment-image"/>`;
+      } else {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+      }
+    });
+
+    return <div dangerouslySetInnerHTML={{ __html: formattedBody }} />;
+  };
+
   return (
     <div className="feed-container">
       <div className="card feed-card mg-bottom feed-item">
@@ -87,7 +100,9 @@ export default function FeedItem({
                       <span className="red weight-600">{comment.author}</span>{" "}
                       {timeAgo(comment.created_utc)}:
                     </p>
-                    <p className="comment-body">{comment.body}</p>
+                    <div className="comment-body">
+                      {renderCommentBody(comment.body)}
+                    </div>
                   </div>
                 ))
               ) : (

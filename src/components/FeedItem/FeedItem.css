@@ -67,3 +67,8 @@ img.icon {
   font-size: 0.9em;
   color: #666;
 }
+
+.comment-image {
+  max-width: 200px;
+  border-radius: 4px;
+}

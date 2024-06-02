@@ -2,6 +2,10 @@
   background-color: #f9fcfd;
 }
 
+a {
+  color: #ef4362;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
