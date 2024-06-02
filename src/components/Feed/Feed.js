@@ -5,7 +5,6 @@ import {
   fetchPosts,
   selectPosts,
   selectStatus,
-  selectPostComments,
   selectCurrentPage,
 } from "../../store/redditSlice";
 import { selectSearchTerm } from "../../store/searchSlice";

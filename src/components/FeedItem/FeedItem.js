@@ -1,6 +1,6 @@
 // FeedItem.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PostVotesWidget from "../PostVotesWidget/PostVotesWidget";
 import "./FeedItem.css";
 import { formatDistanceToNow } from "date-fns";
@@ -16,7 +16,6 @@ export default function FeedItem({
 }) {
   const dispatch = useDispatch();
   const postComments = useSelector(selectPostComments);
-  const [showComments, setShowComments] = useState(false);
   const [loadingComments, setLoadingComments] = useState(false); // New state for loading comments
 
   const isImageUrl = (url) => {

@@ -29,7 +29,7 @@ export default function Sidebar() {
             onClick={handleClick}
             key={subreddit.id}
             className={
-              selectedSubreddit == subreddit.display_name
+              selectedSubreddit === subreddit.display_name
                 ? "subreddits active"
                 : "subreddits"
             }
