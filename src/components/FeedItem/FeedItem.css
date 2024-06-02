@@ -46,3 +46,8 @@ img.icon {
   color: #777;
   margin-right: 1rem;
 }
+
+.comment-body {
+  font-size: 0.9em;
+  color: #666;
+}

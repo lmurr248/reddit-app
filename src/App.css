@@ -83,3 +83,16 @@ div.sidebar {
 .weight-600 {
   font-weight: 600;
 }
+
+button.load-more {
+  border: none;
+  color: white;
+  background-color: #ef4362;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+}

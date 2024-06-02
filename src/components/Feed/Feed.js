@@ -1,7 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import FeedItem from "../FeedItem/FeedItem";
-import { fetchPosts, selectPosts, selectStatus } from "../../store/redditSlice";
+import {
+  fetchPosts,
+  selectPosts,
+  selectStatus,
+  selectPostComments,
+  selectCurrentPage,
+} from "../../store/redditSlice";
 import { selectSearchTerm } from "../../store/searchSlice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -12,9 +18,11 @@ export default function Feed() {
   const posts = useSelector(selectPosts);
   const dispatch = useDispatch();
   const status = useSelector(selectStatus);
+  const currentPage = useSelector(selectCurrentPage);
+
+  const [openCommentSection, setOpenCommentSection] = useState(null);
 
   const loadingPosts = () => {
-    // If status is loading, display skeleton
     if (status === "loading") {
       return (
         <Skeleton
@@ -29,9 +37,18 @@ export default function Feed() {
   };
 
   useEffect(() => {
-    // Dispatch fetchPosts action
-    dispatch(fetchPosts(searchTerm));
+    dispatch(fetchPosts({ subreddit: searchTerm, page: 1, postsPerPage: 10 }));
   }, [dispatch, searchTerm]);
+
+  const handleLoadMore = () => {
+    dispatch(
+      fetchPosts({
+        subreddit: searchTerm,
+        page: currentPage + 1,
+        postsPerPage: 10,
+      })
+    );
+  };
 
   return (
     <div className="Feed-container">
@@ -41,12 +58,22 @@ export default function Feed() {
       </p>
       <div className="Feed-body">
         <div>
-          {/* Render loadingPosts function */}
           {loadingPosts()}
-          {/* Render posts */}
           {posts.map((post) => (
-            <FeedItem key={post.id} post={post} />
+            <FeedItem
+              key={post.id}
+              post={post}
+              openCommentSection={openCommentSection}
+              setOpenCommentSection={setOpenCommentSection}
+            />
           ))}
+          {status === "succeeded" && (
+            <div className="load-more-container">
+              <button className="load-more" onClick={handleLoadMore}>
+                Load More Posts
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="sidebar">

@@ -1,5 +1,3 @@
-// src/store/redditSlice.js
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   fetchRedditPosts,
@@ -12,20 +10,24 @@ const initialState = {
   status: "idle",
   error: null,
   subreddits: [],
+  comments: [],
+  commentsStatus: "idle",
+  currentPage: 1,
+  postsPerPage: 10,
 };
 
 export const fetchPosts = createAsyncThunk(
   "reddit/fetchPosts",
-  async (subreddit) => {
-    const response = await fetchRedditPosts(subreddit);
+  async ({ subreddit, page, postsPerPage }) => {
+    const response = await fetchRedditPosts(subreddit, page, postsPerPage);
     return response;
   }
 );
 
 export const fetchComments = createAsyncThunk(
   "reddit/fetchComments",
-  async (permalink) => {
-    const response = await getPostComments(permalink);
+  async ({ subreddit, id }) => {
+    const response = await getPostComments({ subreddit, id });
     return response;
   }
 );
@@ -50,20 +52,21 @@ const redditSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.posts = action.payload;
+        state.currentPage++;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(fetchComments.pending, (state) => {
-        state.status = "loading";
+        state.commentsStatus = "loading";
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.commentsStatus = "succeeded";
         state.comments = action.payload;
       })
       .addCase(fetchComments.rejected, (state, action) => {
-        state.status = "failed";
+        state.commentsStatus = "failed";
         state.error = action.error.message;
       })
       .addCase(fetchSubreddits.pending, (state) => {
@@ -91,3 +94,5 @@ export const selectError = (state) => state.reddit.error;
 export const selectPostComments = (state) => state.reddit.comments;
 export const selectCommentsStatus = (state) => state.reddit.commentsStatus;
 export const selectSubreddits = (state) => state.reddit.subreddits;
+export const selectCurrentPage = (state) => state.reddit.currentPage;
+export const selectPostsPerPage = (state) => state.reddit.postsPerPage;

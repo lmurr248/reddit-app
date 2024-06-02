@@ -4,6 +4,7 @@ import { selectSubreddits } from "../../store/redditSlice";
 import "./Sidebar.css";
 import Favicon from "./Favicon.svg";
 import { setSearchTerm } from "../../store/searchSlice";
+import { fetchPosts } from "../../store/redditSlice"; // Import fetchPosts action
 
 export default function Sidebar() {
   const subreddits = useSelector(selectSubreddits);
@@ -14,6 +15,9 @@ export default function Sidebar() {
     const subredditTitle = e.currentTarget.getAttribute("data-value");
     setSelectedSubreddit(subredditTitle);
     dispatch(setSearchTerm(subredditTitle));
+    dispatch(
+      fetchPosts({ subreddit: subredditTitle, page: 1, postsPerPage: 10 })
+    );
   };
 
   return (
