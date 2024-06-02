@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PostVotesWidget from "../PostVotesWidget/PostVotesWidget";
 import "./FeedItem.css";
 import { formatDistanceToNow } from "date-fns";
