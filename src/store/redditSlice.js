@@ -18,9 +18,11 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk(
   "reddit/fetchPosts",
-  async ({ subreddit, page, postsPerPage }) => {
+  async ({ subreddit, page, postsPerPage }, { getState }) => {
     const response = await fetchRedditPosts(subreddit, page, postsPerPage);
-    return response;
+    const state = getState();
+    const currentPage = state.reddit.currentPage;
+    return { response, currentPage };
   }
 );
 
@@ -51,8 +53,8 @@ const redditSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.posts = action.payload;
-        state.currentPage++;
+        state.posts = action.payload.response;
+        state.currentPage = action.payload.currentPage + 1;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
