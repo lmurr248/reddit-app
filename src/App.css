@@ -96,3 +96,15 @@ button.load-more {
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .Feed-body {
+    grid-template-columns: 1fr;
+  }
+  div.sidebar {
+    display: none;
+  }
+  .search-text {
+    padding-top: 110px;
+  }
+}
